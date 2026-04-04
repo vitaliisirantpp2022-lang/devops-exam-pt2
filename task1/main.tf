@@ -1,5 +1,5 @@
 data "digitalocean_ssh_key" "existing" {
-  name = "sirant-exam-key" 
+  name = "DO801HPG67TDAGTWNRVB" 
 }
 
 
