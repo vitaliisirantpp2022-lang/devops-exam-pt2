@@ -10,13 +10,13 @@ resource "digitalocean_ssh_key" "main_key" {
 }
 
 resource "digitalocean_vpc" "k8s_vpc" {
-  name     = "sirant-vpc"
+  name     = "sirant-vpc-v2"
   region   = "fra1"
   ip_range = "10.10.10.0/24"
 }
 
 resource "digitalocean_droplet" "node" {
-  name     = "sirant-node"
+  name     = "sirant-node-v2"
   region   = "fra1"
   size     = "s-2vcpu-4gb"
   image    = "ubuntu-24-04-x64"
@@ -25,7 +25,7 @@ resource "digitalocean_droplet" "node" {
 }
 
 resource "digitalocean_firewall" "k8s_firewall" {
-  name = "sirant-firewall"
+  name = "sirant-firewall-v2"
   droplet_ids = [digitalocean_droplet.node.id]
 
   dynamic "inbound_rule" {
@@ -45,6 +45,6 @@ resource "digitalocean_firewall" "k8s_firewall" {
 }
 
 resource "digitalocean_spaces_bucket" "app_bucket" {
-  name   = "sirant-bucket"
+  name   = "sirant-bucket-v2"
   region = "fra1"
 }
