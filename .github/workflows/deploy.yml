@@ -31,11 +31,9 @@ jobs:
     - name: Terraform Init
       run: terraform init
 
-    # Вимога: Перевірка правильності розгортання
     - name: Terraform Validate
       run: terraform validate
 
-    # Вимога: Попередній перегляд. Якщо код містить помилки конфігурації, пайплайн впаде тут і не виконає apply.
     - name: Terraform Plan
       run: terraform plan -out=tfplan
 
