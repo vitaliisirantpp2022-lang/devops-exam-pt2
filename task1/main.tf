@@ -45,6 +45,6 @@ resource "digitalocean_firewall" "k8s_firewall" {
 }
 
 resource "digitalocean_spaces_bucket" "app_bucket" {
-  name   = "sirant-bucket-v2"
+  name   = "sirant-bucket-exam"
   region = "fra1"
 }
