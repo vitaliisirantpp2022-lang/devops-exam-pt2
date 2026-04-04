@@ -1,5 +1,5 @@
 data "digitalocean_ssh_key" "existing" {
-  name = "DO801HPG67TDAGTWNRVB" 
+  name = "sirant-control-node-key" 
 }
 
 
