@@ -1,0 +1,43 @@
+name: CI/CD Task 1 - Deploy Infrastructure
+
+on:
+  push:
+    paths:
+      - 'task1/**'
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  DIGITALOCEAN_TOKEN: ${{ secrets.DO_PAT }}
+  AWS_ACCESS_KEY_ID: ${{ secrets.SPACES_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.SPACES_SECRET_ACCESS_KEY }}
+
+jobs:
+  terraform-deploy:
+    name: Terraform Deploy
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./task1
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v2
+
+    - name: Terraform Init
+      run: terraform init
+
+    # Вимога: Перевірка правильності розгортання
+    - name: Terraform Validate
+      run: terraform validate
+
+    # Вимога: Попередній перегляд. Якщо код містить помилки конфігурації, пайплайн впаде тут і не виконає apply.
+    - name: Terraform Plan
+      run: terraform plan -out=tfplan
+
+    - name: Terraform Apply
+      run: terraform apply -auto-approve tfplan
