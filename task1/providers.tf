@@ -6,11 +6,12 @@ terraform {
     }
   }
 
-  # Вимога: tfstate-файл розміщений у хмарі
   backend "s3" {
-    endpoint                    = "fra1.digitaloceanspaces.com"
+    endpoints = {
+      s3 = "https://fra1.digitaloceanspaces.com"
+    }
     region                      = "us-east-1" 
-    bucket                      = "sirant-tfstate-exam" 
+    bucket                      = "sirant-tfstate-exam"
     key                         = "infrastructure/terraform.tfstate"
     skip_credentials_validation = true
     skip_requesting_account_id  = true
