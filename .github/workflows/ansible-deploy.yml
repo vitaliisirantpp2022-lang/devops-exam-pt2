@@ -1,0 +1,37 @@
+name: CI/CD Task 2 - Install Software (Ansible)
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_ip:
+        description: 'IP address of the VM from Task 1'
+        required: true
+
+jobs:
+  ansible-install:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup SSH Key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ github.event.inputs.target_ip }} >> ~/.ssh/known_hosts
+
+      - name: Install Ansible
+        run: sudo apt-get update && sudo apt-get install -y ansible
+
+      - name: Ansible Syntax Check
+        run: |
+          ansible-playbook task2/playbook.yml -i "${{ github.event.inputs.target_ip }}," --syntax-check
+
+      - name: Ansible Dry Run (Check mode)
+        run: |
+          ansible-playbook task2/playbook.yml -i "${{ github.event.inputs.target_ip }}," -u root --private-key ~/.ssh/id_rsa --check
+
+      - name: Ansible Run (Actual Install)
+        run: |
+          ansible-playbook task2/playbook.yml -i "${{ github.event.inputs.target_ip }}," -u root --private-key ~/.ssh/id_rsa
