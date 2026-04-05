@@ -1,0 +1,8 @@
+replicaCount: 1
+
+image:
+  repository: ghcr.io/vitaliisirantpp2022-lang/exam-app
+  tag: "latest"
+
+app:
+  targetPort: 8000
