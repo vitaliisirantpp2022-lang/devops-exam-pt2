@@ -42,6 +42,4 @@ jobs:
 
     - name: Terraform Apply
       run: terraform apply -auto-approve tfplan
-      
-    - name: Show Private Key (Temporary)
-      run: terraform output -raw private_key
+
